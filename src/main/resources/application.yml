@@ -1,0 +1,19 @@
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    check-template-location: true
+    cache: false
+  devtools:
+    livereload:
+      enabled: true
+server:
+  port: 8080
+  servlet:
+    context-path: /spring-boot
+    session:
+      timeout: 600s
+  tomcat:
+    uri-encoding: UTF-8
+    threads:
+      max: 200
