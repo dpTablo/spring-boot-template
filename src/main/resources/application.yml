@@ -1,19 +1,20 @@
 spring:
-  thymeleaf:
-    prefix: classpath:/templates/
-    suffix: .html
-    check-template-location: true
-    cache: false
-  devtools:
-    livereload:
-      enabled: true
+    config:
+        activate:
+            on-profile: prod
+    thymeleaf:
+        prefix: classpath:/templates/
+        suffix: .html
+        check-template-location: true
+        cache: false
 server:
-  port: 8080
-  servlet:
-    context-path: /spring-boot
-    session:
-      timeout: 600s
-  tomcat:
-    uri-encoding: UTF-8
-    threads:
-      max: 200
+    port: 8080
+    servlet:
+        context-path: /spring-boot
+        session:
+            timeout: 600s
+    tomcat:
+        uri-encoding: UTF-8
+        threads:
+            min-spare: 20
+            max: 200
