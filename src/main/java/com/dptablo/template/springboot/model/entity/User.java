@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "\"user\"")
@@ -28,4 +29,13 @@ public class User implements Serializable {
 
     @Column
     private String phoneNumber;
+
+    @Column
+    private String name;
+
+    @Column
+    private Date createDate;
+
+    @Column
+    private Date updateDate;
 }

@@ -1,8 +1,12 @@
 plugins {
     java
     id("org.springframework.boot") version "2.7.3"
+    id("io.spring.dependency-management") version "1.0.13.RELEASE"
+    id("com.ewerk.gradle.plugins.querydsl") version "1.0.10"
 }
 apply(plugin = "io.spring.dependency-management")
+
+val queryDslVersion by extra("5.0.0")
 
 group "com.dptablo"
 version "1.0.0"
@@ -19,12 +23,21 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 
+    /* queryDSL */
+    implementation("com.querydsl:querydsl-jpa:${queryDslVersion}")
+    annotationProcessor("com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
+    annotationProcessor(
+            "jakarta.persistence:jakarta.persistence-api",
+            "jakarta.annotation:jakarta.annotation-api",
+    )
+
     /* database */
     implementation("org.mariadb.jdbc:mariadb-java-client:3.0.7")
 
     /* dev */
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
 
     /* testing */
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -51,4 +64,40 @@ tasks {
     test {
         useJUnitPlatform()
     }
+
+    clean {
+        doFirst {
+            delete("${projectDir}/src/main/generated")
+        }
+    }
 }
+
+/* queryDSL */
+val queryDslDir = "${buildDir}/generated/querydsl"
+
+querydsl {
+    jpa = true
+    querydslSourcesDir = queryDslDir
+}
+
+tasks {
+    compileQuerydsl {
+        options.annotationProcessorPath = configurations.querydsl
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir(queryDslDir)
+        }
+    }
+}
+
+//sourceSets {
+//    main {
+//        java {
+//            srcDirs("${projectDir}/src/main/java", queryDslDir)
+//        }
+//    }
+//}
