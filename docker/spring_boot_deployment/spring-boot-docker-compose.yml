@@ -1,0 +1,12 @@
+version: "3.1"
+
+services:
+  baroder-partner:
+    image: baroder-partner:1.0.0
+    container_name: baroder-partner
+    ports:
+      - 80:8088
+    #volumes:
+      #- /Users/tablo/Downloads/log:/var/log/baroder-partner
+      #- /home/nas/baroder_upload:/home/nas/baroder_upload
+    restart: always
