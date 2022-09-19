@@ -46,3 +46,23 @@ local 프로파일과 다른점은 필요한 시스템이 로컬환경이 아닌
 
 ## prod
 운영 환경에 필요한 설정을 정의합니다.
+
+# 개발환경 설정
+## Intellij spring auto reload
+Intellij 상에서 spring boot 의 auto reload 설정을 하기 위해서는 아래의 설정이 필요합니다.
+
+Intellij 버전은 `Build #IU-222.3345.118` 을 기준으로 작성된 내용입니다. (2022년 9월 19일 기준 최신 업데이트)
+
+
+### settings 설정
+build > compiler의 "Build project automatically" 를 활성화 합니다.
+
+![](document/readme/spring_devtool_intellij_settings.png)
+
+### Spring Boot Run Configuration 설정
+
+Spring boot Run configuration 에서 "Modify Options" 에 아래 설정을 추가합니다.
+- On 'Update' action: Update classes and resources
+- On frame deactivation: Update classes and resources
+
+![](document/readme/spring_devtool_ide_setting_runconfiguration.png)

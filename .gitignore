@@ -27,3 +27,6 @@ hs_err_pid*
 out/*
 build/*
 .gradle/*
+
+# docker mariadb
+docker/local_mariadb/db/**
