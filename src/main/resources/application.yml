@@ -7,10 +7,10 @@ spring:
         suffix: .html
         check-template-location: true
         cache: false
+
 server:
-    port: 8080
     servlet:
-        context-path: /spring-boot
+        context-path: /
         session:
             timeout: 600s
     tomcat:

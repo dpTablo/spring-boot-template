@@ -1,4 +1,9 @@
 spring:
+    config:
+        activate:
+            on-profile: dev
     devtools:
         livereload:
-            enabled: : true
+            enabled: true
+server:
+    port: 9090

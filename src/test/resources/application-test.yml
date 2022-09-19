@@ -1,7 +1,10 @@
 spring:
+    config:
+        activate:
+            on-profile: test
     devtools:
         livereload:
-            enabled: : true
+            enabled: true
     h2:
         console:
             enabled: true

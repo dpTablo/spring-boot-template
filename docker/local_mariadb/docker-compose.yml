@@ -2,6 +2,7 @@ version: "3"
 
 services:
   db:
+    container_name: 'test_mariadb'
     image: mariadb:10.6.9
     ports:
       - 3306:3306
