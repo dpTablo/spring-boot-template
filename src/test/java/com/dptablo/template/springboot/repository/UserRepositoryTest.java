@@ -1,6 +1,7 @@
 package com.dptablo.template.springboot.repository;
 
 import com.dptablo.template.springboot.model.entity.User;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -14,12 +15,14 @@ class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
+    @DisplayName("entity를 저장하고 조회하여 검증한다.")
     @Test
     void saveAndFind() {
         //given
         User user = User.builder()
                 .userId("dpTablo")
                 .password("leeyw2355@gmail.com")
+                .phoneNumber("01011112222")
                 .build();
 
         //when

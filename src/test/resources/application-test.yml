@@ -19,11 +19,10 @@ spring:
         database-platform: org.hibernate.dialect.H2Dialect
         show-sql: true
         hibernate:
-            ddl-auto: create
+            ddl-auto: create-drop
         properties:
             hibernate:
                 show_sql: true
                 format_sql: true
-
 server:
     port: 9090
