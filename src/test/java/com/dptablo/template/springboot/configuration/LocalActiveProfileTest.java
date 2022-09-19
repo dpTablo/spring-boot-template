@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@ActiveProfiles("test")
-public class TestActiveProfileTest {
+@ActiveProfiles("local")
+public class LocalActiveProfileTest {
     @Autowired
     private ActiveProfile activeProfile;
 
@@ -25,7 +25,7 @@ public class TestActiveProfileTest {
     @Test
     void currentProfileTest() {
         // then
-        assertThat(activeProfile.getOnProfile()).isEqualTo("test");
+        assertThat(activeProfile.getOnProfile()).isEqualTo("local");
     }
 
     @DisplayName("spring devtools 의 live reload가 활성화 되었는지 확인한다.")

@@ -1,5 +1,5 @@
 server:
     config:
         activate:
-            on-profile: local
+            on-profile: prod
     port: 8080
