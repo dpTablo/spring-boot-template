@@ -20,6 +20,7 @@ import java.util.Date;
 @DynamicUpdate
 @Getter
 @Setter
+@EqualsAndHashCode
 public class User implements Serializable {
     @Id
     private String userId;

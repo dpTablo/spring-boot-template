@@ -15,7 +15,7 @@ class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
-    @DisplayName("entity를 저장하고 조회하여 검증한다.")
+    @DisplayName("entity 저장 후 조회 테스트")
     @Test
     void saveAndFind() {
         //given
