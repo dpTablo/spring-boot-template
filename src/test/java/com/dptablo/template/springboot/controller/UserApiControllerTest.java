@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -18,6 +17,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -59,7 +59,11 @@ class UserApiControllerTest {
     ) {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))
-                .apply(documentationConfiguration(restDocumentation))
+                .apply(documentationConfiguration(restDocumentation)
+                        .operationPreprocessors()
+                        .withRequestDefaults(prettyPrint())
+                        .withResponseDefaults(prettyPrint())
+                )
                 .build();
     }
 
@@ -82,19 +86,23 @@ class UserApiControllerTest {
 
 
             //when
+            var userFieldDescriptors = new FieldDescriptor[] {
+                    fieldWithPath("userId").description("사용자 id"),
+                    fieldWithPath("phoneNumber").description("휴대폰번호")
+            };
+
             MvcResult mvcResult = mockMvc.perform(get("/api/v1/user/list/all")
                             .accept(MediaType.APPLICATION_JSON)
                     )
                     .andExpect(status().isOk())
                     .andDo(document("user-{methodName}",
-//                            preprocessRequest(prettyPrint()),
-//                            preprocessResponse(prettyPrint()),
+                            preprocessRequest(prettyPrint()),
+                            preprocessResponse(prettyPrint()),
 //                            requestFields(),
                             responseFields(
-                                    fieldWithPath("userId").description("사용자 id"),
-                                    fieldWithPath("").description("휴대폰번호")
+                                    fieldWithPath("[]").description("유저 리스트")).andWithPrefix("[].", userFieldDescriptors)
                             )
-                    ))
+                    )
                     .andReturn();
 
             //then

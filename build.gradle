@@ -67,7 +67,7 @@ dependencies {
 
     /* Spring RestDocs */
     asciidoctorExtensions "org.springframework.restdocs:spring-restdocs-asciidoctor:$restdocsVersion"
-    testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:$restdocsVersion"
+    testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc"
 }
 
 java {
@@ -123,19 +123,31 @@ test {
 }
 
 asciidoctor {
+    doFirst {
+        delete file("src/main/resources/static/docs")
+    }
+
+    dependsOn test
     configurations "asciidoctorExtensions"
     inputs.dir snippetsDir
-    dependsOn test
+    outputDir "${asciidoctor.outputDir}/html5"
 }
 
 bootJar {
     dependsOn asciidoctor
-    from ("build/docs/asciidoc") {
-        into 'static/docs'
+    from ("${asciidoctor.outputDir}") {
+        into "static/docs"
     }
 }
 
-task copyDocument(type: Copy) {
+task copyDocumentToStatic(type: Copy) {
+    dependsOn asciidoctor
+
+    from file("build/docs/asciidoc/html5")
+    into file("src/main/resources/static/docs")
+}
+
+task copyDocumentToJar(type: Copy) {
     dependsOn asciidoctor
 
     from file("build/docs/asciidoc")
@@ -143,5 +155,6 @@ task copyDocument(type: Copy) {
 }
 
 build {
-    dependsOn copyDocument
+    dependsOn copyDocumentToStatic
+    dependsOn copyDocumentToJar
 }

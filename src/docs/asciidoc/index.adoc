@@ -1,5 +1,5 @@
 = Spring REST Docs
-backtony.github.io(부제)
+dpTablo Spring REST Docs Sample
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
@@ -7,19 +7,13 @@ backtony.github.io(부제)
 :toclevels: 2
 :sectlinks:
 
-[[User-API]]
-== User API
+프로젝트의 API 문서 입니다.
 
-=== 전체 유저 목록 조회
+API 를 사용하기에 앞서 설명하고자 하는 내용을 이 페이지에 작성합니다.
 
-==== curl request
-include::{snippets}/getAllUserList/curl-request.adoc[]
+프로젝트에서 공통적으로 사용하는 http status 의 대한 의미, 인증 방식에 대한 설명과 같은 내용을 작성합니다.
 
-==== HTTP request
-include::{snippets}/getAllUserList/http-request.adoc[]
+== API 목록
+link:subPages/user-api.html[사용자 API]
 
-==== HTTP response
-include::{snippets}/getAllUserList/http-response.adoc[]
 
-==== Response Fields
-include::{snippets}/getAllUserList/response-fields.adoc[]
