@@ -98,7 +98,6 @@ class UserApiControllerTest {
                     .andDo(document("user-{methodName}",
                             preprocessRequest(prettyPrint()),
                             preprocessResponse(prettyPrint()),
-//                            requestFields(),
                             responseFields(
                                     fieldWithPath("[]").description("유저 리스트")).andWithPrefix("[].", userFieldDescriptors)
                             )
