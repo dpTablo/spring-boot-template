@@ -3,6 +3,8 @@ package com.dptablo.template.springboot.controller;
 import com.dptablo.template.springboot.configuration.SecurityConfiguration;
 import com.dptablo.template.springboot.model.dto.UserDto;
 import com.dptablo.template.springboot.model.entity.User;
+import com.dptablo.template.springboot.security.jwt.JwtRequestFilter;
+import com.dptablo.template.springboot.service.JwtAuthenticationService;
 import com.dptablo.template.springboot.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,13 +41,14 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = UserApiController.class,
+@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
+@WebMvcTest(
+        controllers = UserApiController.class,
         excludeFilters = {
-                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = SecurityConfiguration.class)
+                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = JwtRequestFilter.class)
         }
 )
 @AutoConfigureMockMvc(addFilters = false)
-@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 class UserApiControllerTest {
     private MockMvc mockMvc;
 
@@ -84,14 +87,13 @@ class UserApiControllerTest {
 
             given(userService.getAllUserList()).willReturn(Arrays.asList(user1, user2));
 
-
             //when
             var userFieldDescriptors = new FieldDescriptor[] {
                     fieldWithPath("userId").description("사용자 id"),
                     fieldWithPath("phoneNumber").description("휴대폰번호")
             };
 
-            MvcResult mvcResult = mockMvc.perform(get("/api/v1/user/list/all")
+            MvcResult mvcResult = mockMvc.perform(get("/api/user/list/all")
                             .accept(MediaType.APPLICATION_JSON)
                     )
                     .andExpect(status().isOk())

@@ -1,6 +1,7 @@
 package com.dptablo.template.springboot.security.jwt;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.dptablo.template.springboot.ApplicationConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -74,10 +75,11 @@ class JwtTokenProcessorTest {
         String token = jwtTokenProcessor.generateToken(userDetails);
 
         //when
-        boolean result = jwtTokenProcessor.verifyToken(token);
+        DecodedJWT decodedJWT = jwtTokenProcessor.verifyToken(token);
 
         //then
-        assertThat(result).isTrue();
+        assertThat(decodedJWT).isNotNull();
+        assertThat(decodedJWT.getToken()).isEqualTo(token);
     }
 
     @DisplayName("jwt token verify - 유효하지 토큰 검증")

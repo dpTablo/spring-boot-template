@@ -1,5 +1,6 @@
 package com.dptablo.template.springboot.controller;
 
+import com.dptablo.template.springboot.security.jwt.JwtRequestFilter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -15,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = PageViewController.class,
         excludeFilters = {
-                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfigurer.class)
+                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = JwtRequestFilter.class)
         }
 )
 @WithMockUser
@@ -28,6 +29,6 @@ public class PageViewControllerTest {
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("home"))
-                .andExpect(content().string(containsString("Welcome to...")));
+                .andExpect(content().string(containsString("home.html - thymeleaf")));
     }
 }

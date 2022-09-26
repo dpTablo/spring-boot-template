@@ -1,7 +1,6 @@
 package com.dptablo.template.springboot.security.jwt;
 
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
@@ -40,7 +39,7 @@ public class JwtTokenProcessor {
      * @throws JWTCreationException jwt token 생성 실패
      */
     public String generateToken(UserDetails userDetails, Long expireSecond) throws JWTCreationException {
-        Algorithm algorithm = Algorithm.HMAC256(applicationConfiguration.getJwtPrivateKey());
+        var algorithm = Algorithm.HMAC256(applicationConfiguration.getJwtPrivateKey());
         return JWT.create()
                 .withSubject(userDetails.getUsername())
                 .withIssuedAt(new Date(System.currentTimeMillis()))
@@ -51,14 +50,20 @@ public class JwtTokenProcessor {
                 .sign(algorithm);
     }
 
-    public boolean verifyToken(String token) throws JWTVerificationException {
-        DecodedJWT decodedJWT = decodeToken(token);
-        return decodedJWT.getToken().equals(token);
+    /**
+     * 유효한 jwt token 인지 판단합니다.
+     *
+     * @param token jwt token
+     * @return decoded jwt 정보
+     * @throws TokenExpiredException 유효하지 않은 토큰에 대한 exception
+     */
+    public DecodedJWT verifyToken(String token) throws JWTVerificationException {
+        return decodeToken(token);
     }
 
     private DecodedJWT decodeToken(String token) throws TokenExpiredException {
-        Algorithm algorithm = Algorithm.HMAC256(applicationConfiguration.getJwtPrivateKey());
-        JWTVerifier verifier = JWT.require(algorithm)
+        var algorithm = Algorithm.HMAC256(applicationConfiguration.getJwtPrivateKey());
+        var verifier = JWT.require(algorithm)
                 .withIssuer(applicationConfiguration.getJwtIssUser())
                 .build();
         return verifier.verify(token);

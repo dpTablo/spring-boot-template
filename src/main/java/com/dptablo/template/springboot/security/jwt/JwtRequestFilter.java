@@ -1,7 +1,6 @@
 package com.dptablo.template.springboot.security.jwt;
 
 import com.dptablo.template.springboot.service.JwtAuthenticationService;
-import com.dptablo.template.springboot.service.defaults.DefaultJwtAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
@@ -22,20 +21,23 @@ import java.io.IOException;
 public class JwtRequestFilter extends OncePerRequestFilter {
     private static final String BEARER_PREFIX = "Bearer ";
 
+    @Qualifier("defaultJwtAuthenticationService")
+    private final JwtAuthenticationService jwtAuthenticationService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        String token = getTokenInRequest(request);
-//        if(StringUtils.hasText(token) && jwtAuthenticationService.verifyToken(token)) {
-//            Authentication authentication = jwtAuthenticationService.getAuthentication(token).orElseThrow(ServletException::new);
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
-//        }
-//
+        var accessToken = getAccessTokenInRequest(request);
+        if(accessToken != null && jwtAuthenticationService.verifyToken(accessToken)) {
+            Authentication authentication = jwtAuthenticationService.getAuthentication(accessToken)
+                    .orElseThrow(ServletException::new);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
         filterChain.doFilter(request, response);
     }
 
-    private String getTokenInRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+    private String getAccessTokenInRequest(HttpServletRequest request) {
+        var bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
             return bearerToken.substring(BEARER_PREFIX.length());
         }
