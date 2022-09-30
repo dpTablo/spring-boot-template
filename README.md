@@ -2,7 +2,14 @@ spring boot 프로젝트를 위한 템플릿 입니다.
 
 업데이트 기준일 : 2022년 9월 18일
 
-# 프로젝트 구성
+# 목차
+- [1. 프로젝트 구성](#1.-프로젝트-구성)
+- [2. Spring Profile 구분](#2.-Spring-Profile-구분)
+- [3. 개발환경 설정](#3.-개발환경-설정)
+- [4. 배포](#4.-배포)
+---
+
+# 1. 프로젝트 구성
 ## java
 java 17을 적용하였습니다.
 
@@ -25,8 +32,7 @@ junit 5를 사용하여 단위 테스트를 작성합니다.
 ### Database 
 로컬 테스팅 환경에서는 h2를 사용하여 테스트를 수행합니다.
 
-
-# Spring Profile 구분
+# 2. Spring Profile 구분
 ## test
 로컬 환경에서 단위 테스트를 수행하기 위한 프로파일입니다. 
 
@@ -47,7 +53,7 @@ local 프로파일과 다른점은 필요한 시스템이 로컬환경이 아닌
 ## prod
 운영 환경에 필요한 설정을 정의합니다.
 
-# 개발환경 설정
+# 3. 개발환경 설정
 ## Intellij spring auto reload
 Intellij 상에서 spring boot 의 auto reload 설정을 하기 위해서는 아래의 설정이 필요합니다.
 
@@ -66,3 +72,10 @@ Spring boot Run configuration 에서 "Modify Options" 에 아래 설정을 추�
 - On frame deactivation: Update classes and resources
 
 ![](document/readme/spring_devtool_ide_setting_runconfiguration.png)
+
+# 4. 배포 
+## spring boot docker
+`docker/spring_boot_deployment` 디렉토리하위에 아래의 파일이 정의되어 있습니다.
+- `docker-build.sh` : docker 이미지 생성용 shell script (현재 미작성)
+- `Dockerfile-prod` : 운영 배포용 dockerfile
+- `spring-boot-docker-compose.yml` : spring boot 서비스 docker-compose
