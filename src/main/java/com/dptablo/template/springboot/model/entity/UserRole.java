@@ -6,9 +6,10 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "\"user_role\"")
+@Table(name = "user_role")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -17,15 +18,11 @@ import javax.persistence.*;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class UserRole {
+public class UserRole implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "user_role_sequence")
-    private Long sequence;
-
-    @Column(name = "user_id")
-    private String userId;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Column
-    private Role role;
+    private String description;
 }

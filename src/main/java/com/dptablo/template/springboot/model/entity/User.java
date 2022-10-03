@@ -6,7 +6,9 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -18,9 +20,10 @@ import java.util.Set;
 @DynamicUpdate
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "userRoleMappings")
 public class User implements Serializable {
     @Id
+    @Column
     private String userId;
 
     @Column
@@ -33,12 +36,25 @@ public class User implements Serializable {
     private String name;
 
     @Column
-    private Date createDate;
+    private LocalDateTime createDate;
 
     @Column
-    private Date updateDate;
+    private LocalDateTime updateDate;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", nullable = true)
-    private Set<UserRole> userRoles;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<UserRoleMapping> userRoleMappings = new HashSet<>();
+
+    public UserRoleMapping addUserRole(UserRole userRole) {
+        var mapping = UserRoleMapping.builder()
+                .user(this)
+                .role(userRole)
+                .build();
+        userRoleMappings.add(mapping);
+        return mapping;
+    }
+
+    public void addUserRoleMapping(UserRoleMapping mapping) {
+        mapping.setUser(this);
+        userRoleMappings.add(mapping);
+    }
 }

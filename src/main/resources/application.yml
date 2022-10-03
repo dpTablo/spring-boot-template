@@ -2,12 +2,13 @@ spring:
     config:
         activate:
             on-profile: prod
+    jackson:
+        default-property-inclusion: non_null
     thymeleaf:
-        prefix: classpath:/templates/
+        prefix: classpath:templates/
         suffix: .html
-        check-template-location: true
         cache: false
-
+        enabled: true
 server:
     servlet:
         context-path: /

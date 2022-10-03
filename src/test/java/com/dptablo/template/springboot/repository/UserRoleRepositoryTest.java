@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
 @ActiveProfiles("test")
@@ -16,21 +16,19 @@ class UserRoleRepositoryTest {
     @Autowired
     private UserRoleRepository userRoleRepository;
 
-    @DisplayName("entity 저장 후 조회 테스트")
+    @DisplayName("기본 저장/조회 테스트")
     @Test
     void saveAndFind() {
         //given
-        UserRole userRole = UserRole.builder()
-                .userId("dpTablo")
-                .role(Role.ADMIN)
+        var userRole = UserRole.builder()
+                .role(Role.ROLE_ADMIN)
+                .description("관리자")
                 .build();
 
         //when
-        UserRole savedUserRole = userRoleRepository.save(userRole);
-
-        UserRole foundUserRole = userRoleRepository.findById(savedUserRole.getSequence()).orElseThrow(NullPointerException::new);
+        var savedRole = userRoleRepository.save(userRole);
 
         //then
-        assertThat(foundUserRole).isEqualTo(savedUserRole);
+        assertThat(savedRole).isEqualTo(userRole);
     }
 }

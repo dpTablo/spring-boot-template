@@ -19,4 +19,7 @@ public class ApplicationConfiguration {
 
     @Value("${jwt.expiryMinutes:30}")
     private long jwtExpiryMinutes;
+
+    @Value("${jwt.header:Authorization}")
+    private String header;
 }
