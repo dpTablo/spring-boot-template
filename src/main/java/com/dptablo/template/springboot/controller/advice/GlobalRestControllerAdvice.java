@@ -1,4 +1,4 @@
-package com.dptablo.template.springboot.controller;
+package com.dptablo.template.springboot.controller.advice;
 
 import com.dptablo.template.springboot.exception.ApplicationException;
 import com.dptablo.template.springboot.model.ResponseDto;

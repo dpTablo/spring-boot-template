@@ -25,9 +25,6 @@ class UserRepositoryTest {
     @Autowired
     private UserRoleRepository userRoleRepository;
 
-    @Autowired
-    private UserRoleMappingRepository userRoleMappingRepository;
-
     @DisplayName("entity 저장 후 조회 테스트")
     @Test
     void saveAndFind() {
@@ -71,11 +68,11 @@ class UserRepositoryTest {
 
         //given - userRole
         var adminRole = UserRole.builder()
-                .role(Role.ADMIN)
+                .role(Role.ROLE_ADMIN)
                 .description("관리자")
                 .build();
         var userRole = UserRole.builder()
-                .role(Role.USER)
+                .role(Role.ROLE_USER)
                 .description("일반사용자")
                 .build();
         userRoleRepository.save(adminRole);

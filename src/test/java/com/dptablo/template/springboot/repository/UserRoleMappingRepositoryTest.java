@@ -27,7 +27,7 @@ class UserRoleMappingRepositoryTest {
                 .build();
 
         var role = UserRole.builder()
-                .role(Role.ADMIN)
+                .role(Role.ROLE_ADMIN)
                 .build();
 
         var mapping = UserRoleMapping.builder()

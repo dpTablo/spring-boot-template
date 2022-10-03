@@ -21,7 +21,7 @@ class UserRoleRepositoryTest {
     void saveAndFind() {
         //given
         var userRole = UserRole.builder()
-                .role(Role.ADMIN)
+                .role(Role.ROLE_ADMIN)
                 .description("관리자")
                 .build();
 

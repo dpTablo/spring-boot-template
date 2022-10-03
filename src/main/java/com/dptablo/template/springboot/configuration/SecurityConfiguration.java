@@ -1,6 +1,5 @@
 package com.dptablo.template.springboot.configuration;
 
-import com.dptablo.template.springboot.model.enumtype.Role;
 import com.dptablo.template.springboot.security.jwt.JwtRequestFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -45,7 +44,7 @@ public class SecurityConfiguration {
 
                 .authorizeHttpRequests()
                     .mvcMatchers("/api/**")
-                        .hasRole(Role.USER.toString())
+                        .hasRole("USER")
                     .anyRequest().authenticated();
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
